@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #myimg{
+            position: absolute;
+            left: 500px;
+            top: 200px;
+            
+        }
+        #khavanu{
+            position: absolute;
+            background-color: red;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body onload="changeposition()"> 
+    <!-- <input type="button" value="Move Left" onclick="StartLeft()">
+    <input type="button" value="Move Right" onclick="StartRight()">
+    <input type="button" value="Move Top" onclick="StartTop()">
+    <input type="button" value="Move Bottom" onclick="StartBottom()">
+    <br> -->
+    <img src="SnakeR.jpg" id="myimg">
+    <div id="khavanu"></div>
+
+    <script>
+        leftPos = 500;
+        topPos = 200;
+        stop = 0;
+        const range = 120;
+        document.onkeydown = function down(e){
+            if(e.key == "ArrowLeft"){
+                StartLeft();
+            }else if(e.key=="ArrowRight"){
+                StartRight();
+            }else if(e.key=="ArrowUp"){
+                StartTop();
+            }else if(e.key=="ArrowDown"){
+                StartBottom();
+            }
+        }
+
+        function changeposition(){
+            leftapple = Math.ceil(Math.random()*1100)+100;
+            topapple = Math.ceil(Math.random()*700)+100;
+            k = document.getElementById('khavanu')
+            k.style.left = leftapple+"px"
+            k.style.top = topapple+"px"
+
+        }
+        function StartLeft(){
+            clearInterval(stop)
+            stop=setInterval(moveleft,1)
+        }
+        function StartRight(){
+            clearInterval(stop)
+            stop=setInterval(moveright,1)
+        }
+        function StartTop(){
+            clearInterval(stop)
+            stop=setInterval(movetop,1)
+        }
+        function StartBottom(){
+            clearInterval(stop)
+            stop=setInterval(movebottom,1)
+        }
+        function moveleft(){
+            leftPos--;
+            check()
+            if(leftPos<0){
+                leftPos = screen.availWidth;
+            }
+            i = document.getElementById('myimg')
+            i.src = "snakeL.jpg";
+            i.style.left = leftPos + "px"
+        }
+        function moveright(){
+            
+            leftPos++;
+            check()
+            if(leftPos>screen.availWidth){
+                leftPos = 0;
+            }
+            i = document.getElementById('myimg')
+            i.src = "snakeR.jpg";
+            i.style.left = leftPos + "px"
+        }
+        function movetop(){
+            topPos--;
+            check()
+            i = document.getElementById('myimg')
+            i.src = "snakeT.jpg";
+            i.style.top = topPos + "px"
+        }
+        function movebottom(){
+            topPos++;
+            check()
+            i = document.getElementById('myimg')
+            i.src = "snakeB.jpg";
+            i.style.top = topPos + "px"
+        }
+        function check(){
+            if(Math.abs(leftPos - leftapple) <= range && Math.abs(topPos - topapple) <= range){
+                // document.write("<h1>khavai gyu</h1>")
+                changeposition();
+            }
+        }
+    </script>
+
+</body>
+</html>
