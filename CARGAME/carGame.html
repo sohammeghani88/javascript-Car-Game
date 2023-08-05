@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #road{
+            height: 100vh;
+            width:30%;
+            margin: auto; 
+            background-color: black;
+            
+        }
+        #white{
+            height: 100vh;
+            width: 2%;
+            margin-left: 14%;
+            background-color: white;
+            position: absolute;
+        }
+        .mar{
+            margin-left: 18%;
+            height: 100%;
+            width: 10%;
+            float: left;
+        }
+        .black1{
+            height: 10%;
+            width: 100%;
+            background-color: black;
+            position: absolute;
+        }
+        .black2{
+            height: 10%;
+            width: 100%;
+            background-color: black;
+            position: absolute;
+          
+        }
+        .enemy1{
+            height: 13%;
+            width: 5%;
+            top: 0%;
+            margin-left:4%;
+            /* background-color: red; */
+            position: absolute;
+        }
+        .enemy2{
+            height: 13%;
+            width: 5%;
+            margin-left:20vw ;
+            top: 60%;
+            /* background-color: red; */
+            position: absolute;
+        }
+        .mycar{
+            height: 13%;
+            width: 5%;
+            margin-left:4% ;
+            top: 70%;
+            /* background-color: blue; */
+            position: absolute;
+        }
+        body{
+            background-color: antiquewhite;
+            
+        }
+        </style>
+</head>
+<body>
+    <div>
+        <input type="button" value="start" onclick="Start()">     
+        <input type="button" value="left" onclick="left()">   
+        <input type="button" value="right" onclick="right()">     
+        <div id="road">
+            
+                <img src="enemycar1.png" class="enemy1">
+                <img src="mycar.png" class="mycar">
+                
+            
+            <div id="white">
+                <div class="black1"></div>
+                <div class="black2"></div>
+            </div>
+
+            <img src="enemycar.png" class="enemy2">
+            
+        </div>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        document.onkeydown = function down(e){
+            if(e.key == "ArrowLeft"){
+                left();
+            }else if(e.key=="ArrowRight"){
+                right();
+            }else if(e.key=="ArrowUp"){
+                StartTop();
+            }else if(e.key=="ArrowDown"){
+                StartBottom();
+            }
+        }
+        function Start(){
+            stop1=setInterval(movetop1,40)
+            stop2=setInterval(movetop,40)
+            stop3=setInterval(lane,10)
+        }
+        topPos1 = 0;
+        topPos2 = 50;
+        function movetop1(){
+            topPos2++;
+            gameover()
+            j = document.getElementsByClassName('enemy2')[0]
+            j.style.top  = topPos2 + "%"
+            if(topPos2 === 100){
+                topPos2=0;
+            }
+        }
+        function movetop(){
+            topPos1++;
+            gameover()
+            i = document.getElementsByClassName('enemy1')[0]
+            // console.log(i)
+            i.style.top  = topPos1 + "%"
+            if(topPos1 === 100 ){
+                topPos1=0;
+            }
+        }
+        
+
+        lanePos1 = 0;
+        lanePos2 = 50;
+        function lane(){
+            lanePos1++;
+            lanePos2++;
+            if(lanePos1==100){
+                lanePos1=0
+            }
+            if(lanePos2==100){
+                lanePos2=0
+            }
+            k = document.getElementsByClassName('black1')[0];
+            p = document.getElementsByClassName('black2')[0];
+            k.style.top = lanePos1 + "%"
+            p.style.top = lanePos2 + "%"
+            gameover();
+        }
+
+        function right(){
+            r = setInterval(myright,30)
+        }
+
+        myr=4
+        cartop1=70;
+        cartop2=0;
+        function myright(){
+            myr++;
+            cartop1 = 0;
+            if(myr>20){
+                clearInterval(r)
+                myr=4
+                cartop2 = 70;
+            }
+            else{
+                i = document.getElementsByClassName('mycar')[0];
+                i.style.marginLeft = myr+'vw';
+            }
+        }
+
+
+        function left(){
+            l = setInterval(myleft,30)
+        }        
+        myl=20
+        function myleft(){
+            myl--;
+            cartop2 = 0;
+            if(myl<4){
+                clearInterval(l)
+                myl=20
+                cartop1 = 70;
+            }else{
+                i = document.getElementsByClassName('mycar')[0];
+                i.style.marginLeft = myl+'vw';
+            }
+        }
+
+        function gameover(){
+            if(topPos1===57 && cartop1===70 || topPos2===57 && cartop2===70){
+                // clearInterval(r)//
+                clearInterval(stop1)
+                clearInterval(stop2)
+                clearInterval(stop3)
+                swal("YOU LOST GAMEOVER!!!", {
+                buttons: {
+                    cancel: "menu",
+                    playAgain : true,
+                },
+                })
+                .then((value) => {
+                switch (value) {
+                
+                    case "playAgain":
+                        if(window.location.reload())
+                        Start();
+                    
+                    break;
+        
+                    default:
+                    swal("Got away safely!");
+                }
+                });
+            }
+            if(topPos1===cartop1 || topPos2===cartop2){
+            }
+        }
+    </script>
+</body>
+</html>
